@@ -33,7 +33,7 @@ for i in range(58):
     else:
         save_data[save_data.columns[i]] = pd.Series([], dtype='float64')
 
-labels = ['others', 'one', 'two', 'three', 'four']
+labels = ['others', 'one', 'two', 'three', 'four', 'pinch']
 label_idx = 0
 
 
@@ -85,7 +85,7 @@ while cap.isOpened():
     elif key == ord('p'):
         record = not record
     elif key == ord('l'):
-        label_idx = (label_idx + 1) % 5
+        label_idx = (label_idx + 1) % 6
         print(labels[label_idx])
 
 # save dataframe as csv

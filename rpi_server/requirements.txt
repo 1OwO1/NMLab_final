@@ -1,0 +1,9 @@
+flask
+cryptography
+Crypto 
+dlib
+face_recognition
+flask_cors
+PIL
+requests
+secrets

@@ -6,17 +6,28 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { TextField } from "@mui/material";
-export default function AdCard() {
+export default function funcCard() {
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardMedia sx={{ height: 140 }} image="/static/images/cards/contemplative-reptile.jpg" title="green iguana" />
-      <TextField id="standard-password-input" label="Password" type="password" autoComplete="current-password" variant="standard" />
+      <CardMedia
+        sx={{ height: 140 }}
+        image="/static/images/cards/contemplative-reptile.jpg"
+        title="green iguana"
+      />
+      <TextField
+        id="standard-password-input"
+        label="Password"
+        type="password"
+        autoComplete="current-password"
+        variant="standard"
+      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           Lizard
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
+          Lizards are a widespread group of squamate reptiles, with over 6,000 species,
+          ranging across all continents except Antarctica
         </Typography>
       </CardContent>
       <CardActions>

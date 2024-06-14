@@ -25,16 +25,6 @@ mp_drawing = mp.solutions.drawing_utils
 # Capture video from the webcam
 cap = cv2.VideoCapture(0)
 
-# initialize dataframe
-# save_data = pd.DataFrame(columns=[f'x_{i}' for i in range(57)] + ['label'])
-# for i in range(58):
-#     if i == 57:
-#         save_data[save_data.columns[i]] = pd.Series([], dtype='string')
-#     else:
-#         save_data[save_data.columns[i]] = pd.Series([], dtype='float64')
-
-# labels = ['others', 'one', 'two', 'three', 'four']
-# label_idx = 0
 model = tf.keras.models.load_model('pinch_gesture/pinch_model.keras')
 
 lm_arr_histoty = []
@@ -69,10 +59,11 @@ while cap.isOpened():
                 arr = lm_to_np(lm, True)
                 # print(repr(preprocess_lm(lm, True)))
 
-            after_tf = align_points(arr[0], arr[5], arr[17], arr)
-            after_tf = remove_reference_points(after_tf)
+            dist = np.linalg.norm(arr[5] - arr[0])
+            arr = arr - np.average(arr, axis=0)
+            arr = arr / dist
 
-            lm_arr_histoty.append(after_tf)
+            lm_arr_histoty.append(arr)
             lm_arr_history_time.append(time.time())
             if len(lm_arr_histoty) == 5:
                 lm_arr_histoty.pop(0)
@@ -82,15 +73,22 @@ while cap.isOpened():
                 time_arr = np.array(lm_arr_history_time)
                 time_arr = (time_arr - time_arr[0])[1:]
 
-                input_arr = np.reshape(np.concatenate((lms.flatten(), time_arr)), (1, 231))
+                input_arr = np.reshape(np.concatenate((lms.flatten(), time_arr)), (1, 255))
 
                 # Make predictions
                 predictions = model.predict(input_arr)
 
-                # If it's a classification model, get the class with the highest probability
-                predicted_class = np.argmax(predictions, axis=1)
+                # Double verify
+                old_dist = np.linalg.norm(lms[0, 4] - lms[0, 8])
+                new_dist = np.linalg.norm(lms[3, 4] - lms[3, 8])
 
-                print(predicted_class)
+                if predictions[0, 0] < 0.65:
+                    if old_dist - new_dist > 0.1:
+                        print("click")
+                    else:
+                        print("idle")
+                else:
+                    print("idle")
 
             mp_drawing.draw_landmarks(frame, lm, mp_hands.HAND_CONNECTIONS)
 

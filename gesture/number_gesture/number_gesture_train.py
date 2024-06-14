@@ -7,7 +7,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 
 # Load dataset
-data = pd.read_csv('gesture_data_all.csv')
+data = pd.read_csv('number_gesture/number_gesture_data_2.csv')
 
 # Separate features and labels
 X = data.iloc[:, :-1].values
@@ -49,4 +49,4 @@ test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
 print(f'Test accuracy: {test_acc}')
 
 # Save the model
-model.save('my_model.keras')
+model.save('number_gesture/number_model_3.keras')

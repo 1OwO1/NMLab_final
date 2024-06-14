@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import AdCard from "../components/funcCard";
-import InfoCard from "../components/infoCard";
+import LoginCard from "../components/loginCard";
 import { useNMLab, NMLabProvider } from "./hooks/useNMLab";
 
 const Wrapper = styled.div`
@@ -18,8 +18,6 @@ const Wrapper = styled.div`
 // background-color: #becbd3;
 export default function Register() {
   const { name, setName, keyIn, setKeyIn, inputStatus, setInputStatus } = useNMLab();
-  const [password, setPassword] = React.useState("");
-  const [phone_number, setPhoneNumber] = React.useState("");
   const test = () => {
     window.scrollTo({ top: 50, left: 0, behavior: "smooth" });
   };
@@ -28,12 +26,6 @@ export default function Register() {
     switch (inputStatus) {
       case "name":
         pos = 80;
-        break;
-      case "password":
-        pos = 120;
-        break;
-      case "phone_number":
-        pos = 160;
         break;
     }
 
@@ -47,6 +39,17 @@ export default function Register() {
     <Wrapper>
       <Box
         display="flex"
+        height="93vh"
+        width={"65%"}
+        alignItems="center"
+        bgcolor="#becbd3"
+        justifyContent="center"
+        flexWrap="wrap"
+      >
+        <LoginCard test={test} setName={setName} click={click} />
+      </Box>
+      <Box
+        display="flex"
         height="89vh"
         width={"35%"}
         alignItems="center"
@@ -55,19 +58,9 @@ export default function Register() {
         fontSize="80px"
         fontWeight={"bold"}
       >
-        立即註冊
+        歡迎回來
       </Box>
-      <Box
-        display="flex"
-        height="93vh"
-        width={"65%"}
-        alignItems="center"
-        bgcolor="#becbd3"
-        justifyContent="center"
-        flexWrap="wrap"
-      >
-        <InfoCard test={test} setName={setName} click={click} />
-      </Box>
+
       {keyIn ? (
         <Box height="40vh" width="100%">
           hi

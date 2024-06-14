@@ -7,7 +7,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout
 
 # Load dataset
-data = pd.read_csv('pinch_gesture/ges_all_more_neg.csv')
+data = pd.read_csv('pinch_gesture/ges_data_1.csv')
 
 # Separate features and labels
 X = data.iloc[:, :-1].values
@@ -28,18 +28,22 @@ y = label_encoder.fit_transform(y)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Define the model
+input_size = 255
+output_units = 1  # Since we have only two categories
+
+# Adjusting the model architecture
 model = Sequential([
-    Dense(128, input_shape=(231,), activation='relu'),
+    Dense(256, input_shape=(input_size,), activation='relu'),  # Increase the units in the first layer
+    Dropout(0.5),
+    Dense(128, activation='relu'),
     Dropout(0.5),
     Dense(64, activation='relu'),
     Dropout(0.5),
-    Dense(32, activation='relu'),
-    Dropout(0.5),
-    Dense(len(np.unique(y)), activation='softmax')
+    Dense(output_units, activation='sigmoid')  # Single output unit for binary classification
 ])
 
 # Compile the model
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 # Train the model
 history = model.fit(X_train, y_train, epochs=50, batch_size=32, validation_split=0.2)

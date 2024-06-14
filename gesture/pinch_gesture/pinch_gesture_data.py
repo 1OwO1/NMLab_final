@@ -32,9 +32,9 @@ mp_drawing = mp.solutions.drawing_utils
 cap = cv2.VideoCapture(0)
 
 # initialize dataframe
-save_data = pd.DataFrame(columns=[f'x_{i}' for i in range(231)] + ['label'])
-for i in range(232):
-    if i == 531:
+save_data = pd.DataFrame(columns=[f'x_{i}' for i in range(255)] + ['label'])
+for i in range(256):
+    if i == 255:
         save_data[save_data.columns[i]] = pd.Series([], dtype='string')
     else:
         save_data[save_data.columns[i]] = pd.Series([], dtype='float64')
@@ -78,16 +78,18 @@ while cap.isOpened():
                 arr = lm_to_np(lm, True)
                 # print(repr(preprocess_lm(lm, True)))
 
-            after_tf = align_points(arr[0], arr[5], arr[17], arr)
-            after_tf = remove_reference_points(after_tf)
+            dist = np.linalg.norm(arr[5] - arr[0])
+            arr = arr - np.average(arr, axis=0)
+            arr = arr / dist
 
-            lm_arr_histoty.append(after_tf)
+            # after_tf = align_points(arr[0], arr[5], arr[17], arr)
+            # after_tf = remove_reference_points(after_tf)
+
+            lm_arr_histoty.append(arr)
             lm_arr_history_time.append(time.time())
-            lm_arr_histoty_raw.append(arr)
             if len(lm_arr_histoty) == 5:
                 lm_arr_histoty.pop(0)
                 lm_arr_history_time.pop(0)
-                lm_arr_histoty_raw.pop(0)
 
             if clicked:
                 lms = np.array(lm_arr_histoty)
@@ -127,7 +129,7 @@ while cap.isOpened():
         print(label)
 
 # save dataframe as csv
-save_data.to_csv('pinch_gesture/pinch_gesture_data.csv', index=False)
+save_data.to_csv('pinch_gesture/pinch_gesture_data_new.csv', index=False)
 
 # Release the webcam and close the window
 cap.release()

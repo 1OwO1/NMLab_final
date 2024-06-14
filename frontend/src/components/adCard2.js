@@ -9,9 +9,9 @@ import { TextField } from "@mui/material";
 
 const AdCard2 = ({ title, description, actionText }) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, boxShadow: 4 }}>
       <CardContent>
-        <Typography gutterBottom variant="h5" align="left" style={{ fontWeight: 'bold' }}>
+        <Typography gutterBottom variant="h5" align="left" style={{ fontWeight: "bold" }}>
           {title}
         </Typography>
         <Typography variant="body2" color="text.secondary" align="left">
@@ -19,12 +19,12 @@ const AdCard2 = ({ title, description, actionText }) => {
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: "flex-end" }}>
-        <Button size="large" variant="contained" style={{  width: "100%" }}>
+        <Button size="large" variant="contained" style={{ width: "100%" }}>
           {actionText}
         </Button>
       </CardActions>
     </Card>
   );
-}
+};
 
 export default AdCard2;

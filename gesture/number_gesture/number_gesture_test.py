@@ -34,7 +34,7 @@ cap = cv2.VideoCapture(0)
 
 # labels = ['others', 'one', 'two', 'three', 'four']
 # label_idx = 0
-model = tf.keras.models.load_model('number_gesture/number_model.keras')
+model = tf.keras.models.load_model('number_gesture/number_model_3.keras')
 
 while cap.isOpened():
     success, frame = cap.read()

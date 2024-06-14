@@ -4,6 +4,8 @@ import "react-simple-keyboard/build/css/index.css";
 import "./keyboard.css";
 import Box from "@mui/material/Box";
 import { useNMLab } from "../../containers/hooks/useNMLab";
+import blop from "./blop.mp3";
+
 export default function Kb() {
   const [layoutName, setLayoutName] = useState("default");
   const mainKeyboardRef = useRef(null);
@@ -14,14 +16,15 @@ export default function Kb() {
     numPadKeyboardRef.current.setInput(input);
   }, [input]);
   const onChange = (input) => {
-    console.log("Input changed", input);
     setInput(input);
   };
   const onKeyPress = (button) => {
-    console.log("Button pressed", button);
+    // const audio = new Audio('/Users/Tingwu/Desktop/專案/NMLab_final/frontend/src/components/keyboard/blop.mp3');
 
     if (button === "{shift}") handleShift();
     if (button === "{enter}") setKeyIn(false);
+    const audio = new Audio(blop);
+    audio.play();
   };
   const handleShift = () => {
     setLayoutName((prevLayoutName) =>

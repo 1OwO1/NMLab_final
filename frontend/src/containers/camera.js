@@ -14,9 +14,17 @@ const videoConstraints = {
 
 const Camera = () => {
   const webcamRef = useRef(null);
-  const [url, setUrl] = React.useState(null);
-  const [status, setStatus] = React.useState(false);
-  const { saveFace, setSaveFace, sendphoto, countDown } = useNMLab();
+
+  const {
+    saveFace,
+    setSaveFace,
+    sendphoto,
+    countDown,
+    setUrl,
+    url,
+    takePhoto,
+    setTakePhoto,
+  } = useNMLab();
 
   useEffect(() => {
     if (countDown == 0) {
@@ -31,8 +39,7 @@ const Camera = () => {
     //https://stackoverflow.com/questions/58806971/how-can-i-take-a-picture-in-react-web-application-not-native
     const imageSrc = webcamRef.current.getScreenshot();
     setUrl(imageSrc);
-    console.log(imageSrc);
-    setStatus(true);
+    setTakePhoto(false);
   }, [webcamRef]);
 
   const onUserMedia = (e) => {
@@ -48,20 +55,19 @@ const Camera = () => {
       justifyContent="center"
       flexWrap="wrap"
     >
-      {!status ? (
+      {takePhoto ? (
         <>
           <Box width={"72%"} display="flex" justifyContent="center">
             <Webcam
               ref={webcamRef}
               audio={false}
-              screenshotFormat="jpeg"
+              screenshotFormat="image/jpeg"
               videoConstraints={videoConstraints}
               onUserMedia={onUserMedia}
               style={{ borderRadius: "40px" }}
             />
           </Box>
           <Box width={"28%"} fontSize={"100px"}>
-            <button onClick={capturePhoto}>Capture</button>
             {countDown}
             {/* <button onClick={() => start()}>Refresh</button> */}
           </Box>
@@ -70,7 +76,7 @@ const Camera = () => {
         url && (
           <>
             <Box width={"68%"}>
-              <img src={url} alt="Screenshot" style={{ borderRadius: "40px" }}/>
+              <img src={url} alt="Screenshot" style={{ borderRadius: "40px" }} />
             </Box>
             <Box
               width={"32%"}
@@ -103,8 +109,7 @@ const Camera = () => {
                   variant="contained"
                   style={{ fontSize: "25px", borderRadius: "10px", marginLeft: "20px" }}
                   onClick={() => {
-                    setSaveFace("retry");
-                    setStatus(false);
+                    setTakePhoto(true);
                   }}
                   endIcon={<ReplayIcon />}
                 >
@@ -120,51 +125,3 @@ const Camera = () => {
 };
 
 export default Camera;
-/*export const uploadImage = (fileObj) => dispatch => {
-
-  return fetch(url, {
-    method: 'POST',
-    headers: {
-      'Accept': 'image/jpeg'
-    },
-    body: fileObj
-  })
-    .then((response) => response.json())
-    .then(function (response) {
-      if (response.status === 'success') {
-        console.log(response);
-        // ... Show feedback
-        return response
-      } else {
-        // ... Show feedback
-      }
-    })
-    .catch((error) => {
-      console.error(error)
-    });
-}
-*/
-/*var params = { 
-    Bucket: 'bucketName', 
-    Key: Date.now() + '.jpg',
-    ContentType: 'image/jpeg',
-    Body: event.body,
-    ACL: "public-read"
-  };
-  return uploading = new Promise(function (resolve, reject) {
-    return s3.upload(params, function (err, data) {
-      if(err) {
-        state.uploadError = err
-        return reject({
-          error: err,
-          status: 'error',
-          message: 'something went wrong'
-        })
-      }
-      state.uploadData = data
-      state.fileLocation = data.Location
-      state.status = "success"
-      state.message = "File has been uploaded to the fileLocation"
-      return resolve(data)
-    });
-  }) */

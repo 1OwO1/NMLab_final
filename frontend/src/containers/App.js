@@ -10,11 +10,12 @@ import Register from "./register";
 import { useNMLab } from "./hooks/useNMLab";
 import DisplayKB from "./displayKB";
 import Camera from "./camera";
-
+import PrintMenu from "./printMenu";
+import DisplayFile from "./displayFile";
+import FileMenu from "./fileMenu";
 //https://docs.expo.dev/ui-programming/z-index/
 function App() {
   const { keyIn } = useNMLab();
-  console.log("keyIn", keyIn);
   return (
     <div className="App">
       <SearchBar />
@@ -25,6 +26,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/camera" element={<Camera />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/printMenu" element={<PrintMenu />} />
+          <Route path="/displayFile" element={<DisplayFile />} />
+          <Route path="/fileMenu" element={<FileMenu />} />
         </Route>
       </Routes>
     </div>
